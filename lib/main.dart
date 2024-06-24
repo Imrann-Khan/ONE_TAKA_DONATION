@@ -503,22 +503,10 @@ class CommunityPage extends StatelessWidget {
   }
 }
 
-
-
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Admin Profile'),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Column(
         children: [
           ProfileHeader(),
@@ -536,53 +524,93 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
 
+
+class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextStyle? effectiveTextStyle; // Define your TextStyle variable
-
-    double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
-// Check if textScaleFactor suggests bold text preference
-    if (textScaleFactor > 1.0) {
-      effectiveTextStyle = effectiveTextStyle!.merge(const TextStyle(fontWeight: FontWeight.bold));
-    }
-
-
-// Example usage:
-    TextStyle(
-      fontSize: 20.0 * textScaleFactor,
-      fontWeight: textScaleFactor >= 1.3 ? FontWeight.bold : FontWeight.normal,
-    );
-
+    bool isBoldText = MediaQuery.of(context).boldText;
 
     return Container(
       padding: const EdgeInsets.all(16.0),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CircleAvatar(
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-            radius: 40.0,
-          ),
-          const SizedBox(width: 16.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Text(
-                'Sandra Awiiri',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0 * textScaleFactor,
-                ),
+              const CircleAvatar(
+                backgroundImage:
+                NetworkImage('https://via.placeholder.com/150'),
+                radius: 50.0,
               ),
-              Text(
-                '+256 704688781',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16.0 * textScaleFactor,
+              SizedBox(width: 16.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Sandra Awiiri',
+                    style: TextStyle(
+                      fontWeight:
+                      isBoldText ? FontWeight.bold : FontWeight.normal,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  Text(
+                    '+256 704688781',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight:
+                      isBoldText ? FontWeight.bold : FontWeight.normal,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 14.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(width: 2.0, color: Colors.black12),
+                  textStyle: TextStyle(color: Colors.blue),
+                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
                 ),
+                onPressed: () {
+                  // Update profile logic
+                },
+                child: Text('Update'),
+              ),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(width: 2.0, color: Colors.red),
+                  textStyle: TextStyle(color: Colors.black),
+                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                onPressed: () {
+                  // Sign out logic
+                },
+                child: Text('Sign Out'),
+              ),
+            ],
+          ),
+          const Divider(),
+          const SizedBox(height: 0.0),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(), // Pushes the arrow to the right
+              Icon(
+                Icons.arrow_circle_right_outlined,
+                color: Colors.grey,
               ),
             ],
           ),
@@ -605,7 +633,7 @@ class CompanyFacts extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Company Facts',
+            'Company Facts and users',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
@@ -618,34 +646,81 @@ class CompanyFacts extends StatelessWidget {
                 lineBarsData: [
                   LineChartBarData(
                     spots: [
-                      FlSpot(0, 1),
-                      FlSpot(1, 2),
-                      FlSpot(2, 3),
-                      FlSpot(3, 4),
-                      FlSpot(4, 5),
-                      FlSpot(5, 4),
-                      FlSpot(6, 3),
-                      FlSpot(7, 2),
-                      FlSpot(8, 1),
+                      FlSpot(0, 5),
+                      FlSpot(1, 10),
+                      FlSpot(2, 20),
+                      FlSpot(3, 25),
+                      FlSpot(4, 40),
+                      FlSpot(5, 50),
+                      FlSpot(6, 55),
+                      FlSpot(7, 60),
+                      FlSpot(8, 65),
                     ],
                     isCurved: true,
                     colors: [Colors.orange],
                     barWidth: 4,
-                    belowBarData: BarAreaData(show: true),
+                    belowBarData: BarAreaData(show: true, colors: [Colors.orange.withOpacity(0.3)]),
+                    dotData: FlDotData(show: false),
+                  ),
+                  LineChartBarData(
+                    spots: [
+                      FlSpot(0, 3),
+                      FlSpot(1, 5),
+                      FlSpot(2, 8),
+                      FlSpot(3, 12),
+                      FlSpot(4, 18),
+                      FlSpot(5, 25),
+                      FlSpot(6, 28),
+                      FlSpot(7, 30),
+                      FlSpot(8, 35),
+                    ],
+                    isCurved: true,
+                    colors: [Colors.purple],
+                    barWidth: 4,
+                    belowBarData: BarAreaData(show: true, colors: [Colors.purple.withOpacity(0.3)]),
+                    dotData: FlDotData(show: false),
                   ),
                 ],
                 titlesData: FlTitlesData(
                   leftTitles: SideTitles(showTitles: true),
-                  bottomTitles: SideTitles(showTitles: true),
+                  bottomTitles: SideTitles(showTitles: true, getTitles: (value) {
+                    switch (value.toInt()) {
+                      case 0:
+                        return '2016';
+                      case 2:
+                        return '2017';
+                      case 4:
+                        return '2018';
+                      case 6:
+                        return '2019';
+                      default:
+                        return '';
+                    }
+                  }),
+                ),
+                gridData: FlGridData(show: true),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(color: Colors.grey, width: 1),
                 ),
               ),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Indicator(color: Colors.orange, text: 'Active users'),
+              SizedBox(width: 8),
+              Indicator(color: Colors.purple, text: 'Donations per year'),
+            ],
           ),
         ],
       ),
     );
   }
 }
+
+
 
 class Statistics extends StatelessWidget {
   const Statistics({super.key});
@@ -671,54 +746,100 @@ class Statistics extends StatelessWidget {
                 sections: [
                   PieChartSectionData(
                     color: Colors.red,
-                    value: 40,
+                    value: 20,
                     title: 'Zakat F',
-                    radius: 50,
-                    titleStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    radius: 70,
                   ),
                   PieChartSectionData(
-                    color: Colors.orange,
-                    value: 30,
+                    color: Colors.yellow,
+                    value: 15,
                     title: 'Y Organization',
-                    radius: 50,
-                    titleStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    radius: 70,
                   ),
                   PieChartSectionData(
                     color: Colors.purple,
-                    value: 20,
-                    title: 'KLM',
-                    radius: 50,
-                    titleStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    value: 25,
+                    title: 'American Express',
+                    radius: 70,
                   ),
                   PieChartSectionData(
-                    color: Colors.blue,
+                    color: Colors.green,
+                    value: 20,
+                    title: 'KLM',
+                    radius: 70,
+                  ),
+                  PieChartSectionData(
+                    color: Colors.teal,
                     value: 10,
-                    title: 'X Org.',
-                    radius: 50,
-                    titleStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    title: 'X org.',
+                    radius: 70,
+                  ),
+                  PieChartSectionData(
+                    color: Colors.deepPurple,
+                    value: 10,
+                    title: 'Hafezia Madrasa',
+                    radius: 70,
                   ),
                 ],
+                centerSpaceRadius:100,
+                sectionsSpace: 4,
               ),
+            ),
+          ),
+          const Center(
+            child: Column(
+              children: [
+                Text(
+                  'Total Donated Organization',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+                ),
+                SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Indicator(color: Colors.red, text: 'Zakat F'),
+                    SizedBox(width: 8),
+                    Indicator(color: Colors.yellow, text: 'Y Organization'),
+                    SizedBox(width: 8),
+                    Indicator(color: Colors.purple, text: 'American Express'),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Indicator(color: Colors.green, text: 'KLM'),
+                    SizedBox(width: 8),
+                    Indicator(color: Colors.teal, text: 'X Org.'),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class Indicator extends StatelessWidget {
+  final Color color;
+  final String text;
+
+  const Indicator({Key? key, required this.color, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          color: color,
+        ),
+        const SizedBox(width: 4),
+        Text(text),
+      ],
     );
   }
 }
